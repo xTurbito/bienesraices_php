@@ -1,16 +1,15 @@
 <?php 
 
-//Base de datods
+// Base de datos
 require '../../includes/config/databases.php';
 
 $db = conectarDB();
 
-
-//Consulta para vendedores
+// Consulta para vendedores
 $consulta = "SELECT * FROM vendedores";
-$resultado = mysqli_query($db , $consulta);
+$resultado = mysqli_query($db, $consulta);
 
-//Arreglo con mensajes de erores
+// Arreglo con mensajes de errores
 $errores = [];
 
 $titulo = '';
@@ -20,18 +19,12 @@ $habitaciones = '';
 $wc = '';
 $estacionamiento = '';
 $vendedorId = '';
+$imagen = '';
 
-
-//Ejecutar el codigo despues que el usuario envia el formulario
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    
-
-   
-
-    //echo "<pre>";
-    //var_dump($_POST);
-    //echo "</pre>";
+// Ejecutar el código después de que el usuario envíe el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Asignar archivos hacia una variable
+    $imagen = $_FILES['imagen'];
 
     $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
     $precio = mysqli_real_escape_string($db, $_POST['precio']);
@@ -42,50 +35,62 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
     $creado = date('Y/m/d');
 
-    //Asignar files hacia una variable
-    $imagen = $_FILES['imagen'];
-
-
-    if(!$titulo){
-        $errores[] = "Debes añadir un titulo";
+    if (!$titulo) {
+        $errores[] = "Debes añadir un título";
     }
 
-    if(!$precio){
+    if (!$precio) {
         $errores[] = 'El precio es obligatorio';
     }
-    
-    if(strlen($descripcion) < 50 ){
-        $errores[] = 'La descripcion es obligatoria y debe tener al menos 50 caracteres';
+
+    if (strlen($descripcion) < 50) {
+        $errores[] = 'La descripción es obligatoria y debe tener al menos 50 caracteres';
     }
 
-    if(!$habitaciones){
-        $errores[] = 'El Número de habitaciones es obligario';
+    if (!$habitaciones) {
+        $errores[] = 'El número de habitaciones es obligatorio';
     }
 
-    if(!$wc){
-        $errores[] = 'El Número de baños es obligario';
+    if (!$wc) {
+        $errores[] = 'El número de baños es obligatorio';
     }
 
-    if(!$estacionamiento){
-        $errores[] = 'El Número de lugares de Estacionamiento es obligario';
+    if (!$estacionamiento) {
+        $errores[] = 'El número de lugares de estacionamiento es obligatorio';
     }
 
-    if(!$vendedorId){
+    if (!$vendedorId) {
         $errores[] = 'Elige un vendedor';
     }
 
-    if(!$imagen['imagen'] || $imagen['error']){
-        $erroes = 'La Imagen es obligatoria';
+    // Verificar si el archivo fue subido correctamente
+    if (empty($imagen['name']) || $imagen['error'] !== UPLOAD_ERR_OK) {
+        $errores[] = 'La imagen es obligatoria y debe ser válida';
     }
-    
+
     
 
     //Validar por tamaño (100kb máximo);
-    $medida = 1000 * 100;
+    $medida = 1000 * 1000;
 
     if($imagen['size'] > $medida){
         $errores[] = 'La Imagen es muy pesada';
     }
+
+     /* SUBIDA DE ARCHIVOS */
+     $carpetaImagenes = '../../imagenes/';
+
+     if(!is_dir($carpetaImagenes)){
+         mkdir($carpetaImagenes);
+     }
+     
+     //Generar un nombre único
+     $nombreImagen = md5( uniqid( rand(), true ) . ".jpg"  );
+
+     //Subir la imagen
+     move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen );
+  
+    
 
     //echo "<pre>";
    // var_dump($errores);
@@ -95,7 +100,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     //Revisar que el arreglo de errores este vacio
     if(empty($errores)){
     //Insertar en la base de datos
-    $query = "INSERT INTO propiedades (titulo,precio,descripcion,habitaciones,wc,estacionamiento,creado, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado' , '$vendedorId' )";
+    $query = "INSERT INTO propiedades (titulo,precio, imagen , descripcion,habitaciones,wc,estacionamiento,creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado' , '$vendedorId' )";
 
     //echo $query;
 
@@ -104,7 +109,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if($resultado){
        //Redireccionar al usuario;
 
-         header('Location: /admin');
+       header('Location: /admin?resultado=1');
      }
    
     }
