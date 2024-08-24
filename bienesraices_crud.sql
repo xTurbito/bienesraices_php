@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2024 a las 08:05:02
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Servidor: localhost
+-- Tiempo de generación: 24-08-2024 a las 02:03:55
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `propiedades` (
   `imagen` varchar(200) DEFAULT NULL,
   `descripcion` longtext DEFAULT NULL,
   `habitaciones` int(1) DEFAULT NULL,
-  `WC` int(1) DEFAULT NULL,
+  `wc` int(1) DEFAULT NULL,
   `estacionamiento` int(1) DEFAULT NULL,
   `creado` date DEFAULT NULL,
   `vendedorId` int(11) DEFAULT NULL
@@ -44,12 +44,28 @@ CREATE TABLE `propiedades` (
 -- Volcado de datos para la tabla `propiedades`
 --
 
-INSERT INTO `propiedades` (`id`, `titulo`, `precio`, `imagen`, `descripcion`, `habitaciones`, `WC`, `estacionamiento`, `creado`, `vendedorId`) VALUES
-(1, 'Casa en la playa', 1200.00, '20f6d559de8fde66720ad8521e4bef7b.jpg', 'Casa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playa', 1, 2, 3, '2024-08-23', 1),
-(2, 'Casa en la playa', 1200.00, 'ba4bf625994cbd105fd53860abd6813b.jpg', 'Casa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playa', 1, 2, 3, '2024-08-23', 1),
-(3, 'Casa en la playa', 12200.00, 'b34a39fc5dc571b698d938758c91798d.jpg', 'Casa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playa', 1, 2, 3, '2024-08-23', 1),
-(4, 'Casa en la playa', 120000.00, 'ea956ff71892b5eca9dc2c7e34f0e730', 'Casa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playa', 1, 2, 3, '2024-08-23', 1),
-(5, 'Casa en la playa', 12000.00, 'bdc488be51bfe7f1a25b659ec6b88ed2', 'Casa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playaCasa en la playa', 1, 2, 3, '2024-08-23', 1);
+INSERT INTO `propiedades` (`id`, `titulo`, `precio`, `imagen`, `descripcion`, `habitaciones`, `wc`, `estacionamiento`, `creado`, `vendedorId`) VALUES
+(1, 'Casa en la playa', 1200.00, '20f6d559de8fde66720ad8521e4bef7b.jpg', 'Casa en la playa con excelente vista, acabados de lujo a un excelente precio', 2, 3, 1, '2024-08-23', 1),
+(7, 'Casa con alberca', 200000.00, '0ccdf0ae2158e5fed30017db8e33cb46', 'Casa en el lago con excelente vista, acabados de lujo a un excelente precio', 3, 2, 1, '2024-08-23', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` char(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `email`, `password`) VALUES
+(2, 'correo@correo.com', '$2y$10$ySKnOb3c8QiiciWUg6r1aO0ldd7y1mYd6HIAmkHO5z8go5vEdvsZ6');
 
 -- --------------------------------------------------------
 
@@ -83,6 +99,12 @@ ALTER TABLE `propiedades`
   ADD KEY `vendedorId` (`vendedorId`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `vendedores`
 --
 ALTER TABLE `vendedores`
@@ -96,7 +118,13 @@ ALTER TABLE `vendedores`
 -- AUTO_INCREMENT de la tabla `propiedades`
 --
 ALTER TABLE `propiedades`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `vendedores`
