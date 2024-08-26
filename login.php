@@ -8,7 +8,7 @@ $errores = [];
 
 //Autenticar el usuario
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    var_dump($_POST);
+
 
     $email = mysqli_real_escape_string($db,filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) ;
     $password = mysqli_real_escape_string($db,$_POST['password']);
@@ -24,14 +24,31 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(empty($errores)){
 
         //Revisar si existe el usuario
-        $query = "SELECT *  FROM usuarios WHERE = '{$email}' ";
+        $query = "SELECT *  FROM usuarios WHERE email = '{$email}' ";
         $resultado = mysqli_query($db, $query);
         
 
         if( $resultado -> num_rows){
             //Revisar si el password es correcto
+            $usuario = mysqli_fetch_assoc($resultado);
 
+            //Verificar si el password es correcto
+
+            $auth = password_verify($password ,$usuario['password']);
             
+            if($auth){
+                //El usuario esta autenticado
+                session_start();
+
+                //LLenar el arreglo de la sesión
+                $_SESSION['usuario'] = $usuario['email'];
+                $_SESSION['login'] = true;
+
+                header('Location: /admin');
+ 
+            }else{
+                $errores[] = 'El password es incorrecto';
+            }
         }else {
             $errores[] = "El usuario no existe";
         }

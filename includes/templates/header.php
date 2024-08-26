@@ -1,3 +1,13 @@
+<?php
+
+    if(!isset($_SESSION)){
+        session_start();
+    }
+
+    $auth = $_SESSION['login'] ?? false;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,17 +33,21 @@
                 <div class="derecha">
                     <img class="dark-mode-boton" src="/build/img/dark-mode.svg" alt="">
                     <nav class="navegacion">
-                        <a href="nosotros.php">Nosotros</a>
-                        <a href="anuncios.php">Anuncios</a>
-                        <a href="blog.php">Blog</a>
-                        <a href="contacto.php">Contacto</a>
+                        <a href="/nosotros.php">Nosotros</a>
+                        <a href="/anuncios.php">Anuncios</a>
+                        <a href="/blog.php">Blog</a>
+                        <a href="/contacto.php">Contacto</a>
+
+                        <?php if($auth): ?>
+                            <a href="/cerrar-sesion.php">Cerrar Sesion</a>
+                        <?php  endif ?>
                     </nav>
                 </div>
             </div> <!--Cierre de la barra-->
             
-            <?php 
-               echo $incio ? "<h1> Venta de Casas y Depertamentos Exclusivos de Lujo <h1>" : '';
-            ?>
+            <?php if($inicio) { ?> 
+                <h1>Ventas de Casas y Pisos Exclusivos de Lujo</h1>
+            <?php } ?>  
 
         </div>
     </header>
