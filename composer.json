@@ -1,0 +1,20 @@
+{
+    "name": "miguelalcocer/htdocs",
+    "description": "Creando un proyecto con POO",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Miguelalcocer\\Htdocs\\": "src/",
+            "App\\": "classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Migue Alcocer",
+            "email": "miguelalcocer2102@gmail.com"
+        }
+    ],
+    "require": {
+        "intervention/image": "^3.8"
+    }
+}

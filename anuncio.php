@@ -9,8 +9,8 @@
         header('Location: /');
     }
 
-  //Importa la conexion
-  require 'includes/config/databases.php';
+    require 'includes/app.php';
+
   $db = conectarDB();
   //consultar
   $query = "SELECT * FROM propiedades  WHERE id = {$id} ";
@@ -23,7 +23,7 @@
         header('Location: /');
     }
 
-require 'includes/funciones.php';
+
 includeTemplate('header');
 ?>
     
