@@ -1,11 +1,7 @@
 <?php 
 
-require '../../includes/funciones.php';
-$auth = estaAutenticado();
-
-if(!$auth){
-    header('Location: /');
-}
+require '../../includes/app.php';
+estaAutenticado();
 
 //Validar id valido
 $id = $_GET['id'];
@@ -15,13 +11,9 @@ if(!$id){
     header('Location: /admin');
 }
 
-// Base de datos
-require '../../includes/config/databases.php';
-
-$db = conectarDB();
 
 //Obtener los datos de la propiedad
-$consulta = "SELECT * FROM propiedades WHERE id = {$id}";
+
 $resultado =    mysqli_query($db,$consulta);
 $propiedad = mysqli_fetch_assoc($resultado);
 
